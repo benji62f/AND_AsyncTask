@@ -51,6 +51,8 @@ public class ResultAdapter extends ArrayAdapter<Result> {
         }
         ((ImageView) view.findViewById(R.id.function_item_image)).setImageDrawable(context.getResources().getDrawable(R.drawable.history_icon));
 
+        ((ImageView) view.findViewById(R.id.function_item_arrow)).setImageDrawable(null);
+
         return view;
     }
 }

@@ -44,7 +44,9 @@
         android:layout_toRightOf="@+id/thumbnail" />
 
     <!-- Rightend Arrow -->
-    <ImageView android:layout_width="15dp"
+    <ImageView
+        android:id="@+id/function_item_arrow"
+        android:layout_width="15dp"
         android:layout_height="15dp"
         android:src="@drawable/arrow"
         android:layout_alignParentRight="true"

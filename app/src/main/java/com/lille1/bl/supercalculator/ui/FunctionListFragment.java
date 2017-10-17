@@ -9,6 +9,9 @@ import android.support.v7.app.AlertDialog;
 import android.text.InputType;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -35,6 +38,7 @@ public class FunctionListFragment extends ListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -42,6 +46,24 @@ public class FunctionListFragment extends ListFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_function_list, container, false);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.menu_action_history:
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.activity_main_container, new ResultListFragment()).addToBackStack(null).commit();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override
@@ -65,13 +87,12 @@ public class FunctionListFragment extends ListFragment {
             @Override
             public void onItemClick(AdapterView<?> adapter, View v, int position, long l){
                 MathFunction selected = functions.get(position);
-
                 showParamsPopup(selected);
             }
         });
 
         for(int i=1 ; i<=10 ; i++)
-            functions.add(new MathFunction("function " + i, new Random().nextInt(4), (MainActivity) this.getActivity()));
+            functions.add(new MathFunction("function " + i, new Random().nextInt(3)+1, (MainActivity) this.getActivity()));
 
         myAdapter = new FunctionAdapter(getContext(), R.layout.fragment_function_list_item, functions);
         listView.setAdapter(myAdapter);
@@ -127,7 +148,11 @@ public class FunctionListFragment extends ListFragment {
                             public void onClick(DialogInterface dialog, int id) {
                                 double[] params = new double[selected.getNbParams()];
                                 for(int i=0 ; i<selected.getNbParams() ; i++){
-                                    params[i] = Double.parseDouble(((EditText) layout.findViewById(i)).getText().toString());
+                                    String value = ((EditText) layout.findViewById(i)).getText().toString();
+                                    if(!"".equals(value))
+                                        params[i] = Double.parseDouble(value);
+                                    else
+                                        params[i] = 0;
                                 }
                                 selected.execute(params);
                             }
