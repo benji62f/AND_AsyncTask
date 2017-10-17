@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">SuperCalculator</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="empty_list">No item</string>
+    <string name="add_params">Set function params</string>
+    <string name="param_required">param required</string>
+    <string name="params_required">params required</string>
+</resources>
